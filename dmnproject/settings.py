@@ -39,11 +39,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    # restframework
     'rest_framework',
+    'rest_framework.authtoken',
     # project apps
     'main',
-    'account',
+    'user',
+    # third party apps
+    'allauth',
+    'allauth.account',
+    'rest_auth',
+    'rest_auth.registration',
 ]
+
+SITE_ID = 1
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -80,6 +91,25 @@ WSGI_APPLICATION = 'dmnproject.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = my_settings.DATABASES
+
+
+# USER
+
+AUTH_USER_MODEL = 'user.CustomUser'
+
+ACCOUNT_ADAPTER = 'user.adapters.CustomAccountAdapter'
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'user.serializers.CustomRegisterSerializer',
+}
+
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'user.serializers.CustomLoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'user.serializers.CustomUserDetailsSerializer',
+}
+
+# 일단 이메일 인증 비활성화
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
 # Password validation

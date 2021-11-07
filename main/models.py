@@ -10,7 +10,8 @@ from imagekit.processors import ResizeToFit
 
 class Post(models.Model):
     objects = models.Manager()
-    author = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='posts')
+    # on_delete=models.CASCADE -> 유저가 삭제될 때 글도 같이 삭제될 것인지 논의 필요
+    author = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='post_author')
     category = models.CharField(max_length=20,
                                 choices=(
                                     ('Offline', '오프라인'),
@@ -36,6 +37,16 @@ class Post(models.Model):
         	format = 'JPEG',
         	options = {'quality':90},
     		)
+    done = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    objects = models.Manager()
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, related_name='comment_post')
+    # on_delete=models.CASCADE -> 유저가 삭제될 때 댓글도 같이 삭제될 것인지 논의 필요
+    author = models.ForeignKey('user.CustomUser', on_delete=models.CASCADE, related_name='comment_author')
+    pub_date = models.DateTimeField(default=timezone.now)
+    content = models.TextField(default='')

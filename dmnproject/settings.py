@@ -95,14 +95,18 @@ DATABASES = my_settings.DATABASES
 
 # USER
 
+# 기본 유저 모델 설정
 AUTH_USER_MODEL = 'user.CustomUser'
 
+# 어답터 추가
 ACCOUNT_ADAPTER = 'user.adapters.CustomAccountAdapter'
 
+# 기본 회원가입 serializers 설정
 REST_AUTH_REGISTER_SERIALIZERS = {
     'REGISTER_SERIALIZER': 'user.serializers.CustomRegisterSerializer',
 }
 
+# 기본 인증 serializers 설정
 REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'user.serializers.CustomLoginSerializer',
     'USER_DETAILS_SERIALIZER': 'user.serializers.CustomUserDetailsSerializer',
@@ -110,6 +114,15 @@ REST_AUTH_SERIALIZERS = {
 
 # 일단 이메일 인증 비활성화
 ACCOUNT_EMAIL_VERIFICATION = 'none'
+# username은 사용하지 않고 email만 사용함
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_USERNAME_REQUIRED = False
+
+# 비밀번호 변경시 old_password 입력 받기
+OLD_PASSWORD_FIELD_ENABLED = True
 
 
 # Password validation

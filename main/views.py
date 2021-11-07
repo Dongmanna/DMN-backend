@@ -1,3 +1,4 @@
+# main/views.py
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -5,17 +6,18 @@ from .models import Post
 from .serializers import PostSerializer
 from .permissions import IsAuthorOrReadOnly
 
-# Create your views here.
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,
-                          IsAuthorOrReadOnly]
+                        IsAuthorOrReadOnly]
 
+    # post를 작성하면 serializer를 저장함
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
     
+    # online 카테고리의 글들을 보여주는 view
     @action(detail=False)
     def online(self, request, pk=None):
         serializer_context = {'request': request}
@@ -23,6 +25,7 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer = PostSerializer(queryset, many=True, context=serializer_context)
         return Response(serializer.data)
 
+    # offline 카테고리의 글들을 보여주는 view
     @action(detail=False)
     def offline(self, request, pk=None):
         serializer_context = {'request': request}
@@ -30,6 +33,7 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer = PostSerializer(queryset, many=True, context=serializer_context)
         return Response(serializer.data)
 
+    # delivery 카테고리의 글들을 보여주는 view
     @action(detail=False)
     def delivery(self, request, pk=None):
         serializer_context = {'request': request}

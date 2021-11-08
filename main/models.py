@@ -37,7 +37,7 @@ class Post(models.Model):
         	format = 'JPEG',
         	options = {'quality':90},
     		)
-    done = models.BooleanField(default=False)
+    done = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title

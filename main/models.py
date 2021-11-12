@@ -23,10 +23,12 @@ class Post(models.Model):
     body = models.TextField(default='')
     region = models.CharField(max_length=50, blank=True, null=True)
     item = models.CharField(max_length=50)
+    # 공동구매 모집 인원수 (1~10명)
     limit = models.PositiveIntegerField(
         default=1, validators=[MinValueValidator(1), MaxValueValidator(10)])
     link = models.URLField(max_length=300, blank=True, null=True)
     deadline = models.DateTimeField(blank=True, null=True)
+    # 공동구매 참여자
     members = models.ManyToManyField(
         CustomUser, blank=True, related_name='members')
     # 사진 1개 받기
@@ -37,10 +39,17 @@ class Post(models.Model):
         	format = 'JPEG',
         	options = {'quality':90},
     		)
-    done = models.PositiveIntegerField(default=0)
+    done = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
+
+
+class DoneRegister(models.Model):
+    objects = models.Manager()
+    post = models.OneToOneField('Post', on_delete=models.CASCADE, related_name='done_post')
+    users = models.ManyToManyField(
+        CustomUser, blank=True, related_name='done_users')
 
 
 class Comment(models.Model):

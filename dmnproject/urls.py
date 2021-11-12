@@ -4,7 +4,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
-from main.views import PostViewSet, CommentViewSet, ParticipateView
+from main.views import PostViewSet, CommentViewSet
 from user.views import UserViewSet
 
 
@@ -19,7 +19,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('', include('rest_auth.urls')),
     path('registration/', include('rest_auth.registration.urls')),
-    path('posts/<int:id>/participate/', ParticipateView.as_view()),
+    path('posts/', include('main.urls')),
 ]
 
 # for uploading media files

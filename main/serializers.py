@@ -1,7 +1,7 @@
 # main/serializers.py
 from django.core.validators import MaxLengthValidator, MinValueValidator, MaxValueValidator
 from rest_framework import serializers
-from main.models import Post, Comment
+from main.models import Post, DoneRegister, Comment
 
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
@@ -19,8 +19,17 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Post
         fields = ['url', 'id', 'author', 'category', 'title', 'pub_date', 
-        'body', 'region', 'item', 'limit', 'link', 'deadline', 'members', 'image']
-        read_only_fields = ['author', 'pub_date']
+        'body', 'region', 'item', 'limit', 'link', 'deadline', 'members', 'image', 'done']
+        read_only_fields = ['author', 'pub_date', 'done']
+
+
+class DoneRegisterSerializer(serializers.HyperlinkedModelSerializer):
+    
+    class Meta:
+        model = DoneRegister
+        fields = ['post', 'users']
+        read_only_fields = ['post', 'users']
+
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):

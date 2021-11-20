@@ -177,6 +177,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# 이미지를 위한 설정
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 

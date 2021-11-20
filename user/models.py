@@ -26,7 +26,7 @@ class CustomUser(AbstractUser):
 	profile_image = ProcessedImageField(
 		null = True,
 		blank = True,
-		upload_to = 'static/profile/images',
+		upload_to = 'profile/images',
 		processors = [ResizeToFill(300, 300)],
 		format = 'JPEG',
 		options = {'quality':90},

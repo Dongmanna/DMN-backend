@@ -2,9 +2,11 @@
 from django.core.validators import MaxLengthValidator, MinValueValidator, MaxValueValidator
 from rest_framework import serializers
 from main.models import Post, DoneRegister, Comment
+from user.serializers import UserSerializer
 
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
+    author = UserSerializer(read_only=True)
     title = serializers.CharField(
         validators=[MaxLengthValidator(150)]
     )
@@ -15,12 +17,13 @@ class PostSerializer(serializers.HyperlinkedModelSerializer):
     limit = serializers.IntegerField(
         validators=[MinValueValidator(1), MaxValueValidator(10)]
     )
+    members = UserSerializer(many=True, read_only=True)
     
     class Meta:
         model = Post
         fields = ['url', 'id', 'author', 'category', 'title', 'pub_date', 
         'body', 'region', 'item', 'limit', 'link', 'deadline', 'members', 'image', 'done']
-        read_only_fields = ['author', 'pub_date', 'done']
+        read_only_fields = ['author', 'pub_date', 'done', 'members']
 
 
 class DoneRegisterSerializer(serializers.HyperlinkedModelSerializer):
@@ -33,6 +36,7 @@ class DoneRegisterSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class CommentSerializer(serializers.HyperlinkedModelSerializer):
+    author = UserSerializer(read_only=True)
 
     class Meta:
         model = Comment
